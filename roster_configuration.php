@@ -9,7 +9,31 @@ require_once(TEMPLATE_PATH . "/header.php");
 
 
 // My functions
+/** Objectives today
+		create a function to generate the time pass the start and the end time
 
+**/
+
+function generateTime( $open = '00:00', $close = '00:00', $interval = '+30 minutes' ) {
+    $output = '';
+    $current = strtotime($open);
+    $end = strtotime($close);
+    while( $current <= $end ) {
+        $time = date( 'H:i', $current );
+        $sel = ( $time == $default ) ? ' ' : '';
+        $output .= "row = document.createElement('div');
+        			row.className ='row';
+        			colInRow = document.createElement('div');
+        			colInRow.classname = 'row';
+        			colInRow.innerHTML = '<p value=\"{$time}\"{$sel}>'".date('h.i A',
+        			 $current). '</p>'.
+        			'row.appendChild(colInRow);
+        			columns.appendChild(row);';
+        $current = strtotime( $interval, $current );
+    }
+
+    return $output;
+}
 
 
 function get_times( $default = '00:00', $interval = '+30 minutes' ) {
@@ -46,6 +70,7 @@ function get_times( $default = '00:00', $interval = '+30 minutes' ) {
 	}
 	
 </style>
+
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script> 
 <div class="container" id="openClose">
 	<div class="jumbotron">
